@@ -1,0 +1,36 @@
+version: '3.4'
+
+
+networks:
+  event-management-dev:
+    driver: bridge
+
+services:
+  events.api:
+    image: ${DOCKER_REGISTRY-}eventsapi
+    build:
+      context: .
+      dockerfile: Events.Api/Dockerfile
+
+    networks:
+        - event-management-dev
+
+    
+  postgres_image:
+    image: postgres:latest
+    ports:
+        - "5432"
+    restart: always
+    volumes:
+        - db_volume:/var/lib/postgresql/data
+        - .dbscripts/seed.sql :/docker-entrypoint-initdb.d/seed.sql
+    environment:
+        POSTGRES_USER: "postgres"
+        POSTGRES_PASSWORD: "admin"
+        POSTGRES_DB: "event_management"
+    
+    networks:
+        - event-management-dev
+
+volumes:
+  db_volume:
