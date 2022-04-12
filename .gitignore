@@ -1,0 +1,7 @@
+/.vs/
+/bin/
+/obj/
+/.idea/
+/Events.Api/bin/
+/Events.Api/obj/
+/Events.Api/.config/
